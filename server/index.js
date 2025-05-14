@@ -10,12 +10,15 @@ const messageRoutes = require('./routes/messageRoutes');
 const invitationRoutes = require('./routes/invitationRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const classfiedRoutes = require('./routes/classifiedRoutes');
+const groupRoutes = require('./routes/groupRoutes');
+
   
 // Socket handlers
 const authSocket = require('./sockets/authSocket');
 const chatSocket = require('./sockets/chatSocket');
 const invitationSocket = require('./sockets/invitationSocket');
 const eventSockets = require('./sockets/eventSocket');
+const groupSockets = require('./sockets/groupSocket')
 
 const app = express();
 const server = http.createServer(app);
@@ -36,7 +39,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/invitations', invitationRoutes);
 app.use('/api/events', eventRoutes);
-app.use('/api/classifieds' , classfiedRoutes)
+app.use('/api/classifieds', classfiedRoutes);
+app.use('/api/groups', groupRoutes);
+
 app.set('io', io);
 
 // Socket connection handler
@@ -48,6 +53,7 @@ io.on('connection', (socket) => {
   chatSocket(socket);
   invitationSocket(socket);
   eventSockets(socket);
+   groupSockets(socket);
 });
 
 // MongoDB connection
